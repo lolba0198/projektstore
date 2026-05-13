@@ -1,8 +1,6 @@
 import { getPromotion, getProduct } from "@/api"
 
 const promotion = {
-
-
     state() {
         return {
             promotionObject: {},
@@ -11,7 +9,6 @@ const promotion = {
         }
     },
 
-    
     mutations: {
         SET_PROMOTION_OBJECT(state, newPromotionObject) {
             state.promotionObject = newPromotionObject
@@ -41,15 +38,17 @@ const promotion = {
     },
 
     actions: {
-        async FETCH_PROMOTION({state, commit, getters }, promotionId) {
-
+        async FETCH_PROMOTION({ commit }, promotionId) {
             commit("SET_PROMOTION_LOADING", true)
+            
+            commit("SET_PROMOTION_OBJECT", {})
+            
+            commit("SET_PROMOTION_ERROR", null)
 
             try {
                 const data = await getPromotion(promotionId)
 
                 const fullProducts = []
-
                 for (const productId of data.items) {
                     const product = await getProduct(productId)
                     fullProducts.push(product)
@@ -63,7 +62,8 @@ const promotion = {
                 commit("SET_PROMOTION_OBJECT", returnObject)
 
             } catch (error) {
-                commit("SET_PROMOTION_ERROR", error)
+                console.error("Błąd podczas pobierania:", error)
+                commit("SET_PROMOTION_ERROR", "Nie udało się pobrać produktów.")
             } finally {
                 commit("SET_PROMOTION_LOADING", false)
             }
