@@ -1,8 +1,10 @@
 import axios from "axios"
 
+// get
 const get = (url) => new Promise((resolve, reject) => {
   setTimeout(() => {
-    axios.get(url)
+    // withCredentials: true do cookies
+    axios.get(url, { withCredentials: true })
       .then(response => {
         console.log("data", response.data);
         resolve(response.data)
@@ -10,15 +12,39 @@ const get = (url) => new Promise((resolve, reject) => {
       .catch(error => {
         reject(error)
       })
-
   }, 500 + Math.random() * 1000);
+})
 
+// post (rejestracja itp)
+const post = (url, userObject) => new Promise((resolve, reject) => {
+  setTimeout(() => {
+    // withCredentials: true do cookies
+    axios.post(url, userObject, { withCredentials: true }) 
+      .then(response => {
+        console.log("data z serwera:", response.data);
+        resolve(response.data)
+      })
+      .catch(error => {
+        reject(error)
+      })
+  }, 1000);
 })
 
 const getPromotions = () => get("http://localhost:3000/promotions");
-const getPromotion = (id) => get(`http://localhost:3000/promotion/${id}`)
-const getProduct = (id) => get(`http://localhost:3000/product/${id}`)
+const getPromotion = (id) => get(`http://localhost:3000/promotion/${id}`);
+const getProduct = (id) => get(`http://localhost:3000/product/${id}`);
+
+const registerUser = (userObject) => post(`http://localhost:3000/createUser`, userObject);
+const loginUser = (userObject) => post(`http://localhost:3000/loginUser`, userObject);
+const logoutUser = () => post(`http://localhost:3000/logoutUser`, {});
+const getCurrentUser = () => get(`http://localhost:3000/getCurrentUser`);
 
 export {
-  getPromotions, getPromotion, getProduct
+  getPromotions, 
+  getPromotion, 
+  getProduct, 
+  registerUser,
+  loginUser,
+  logoutUser,
+  getCurrentUser
 };
