@@ -1,9 +1,10 @@
 <template>
-  <div>
+  <div class="promotions-container">
     <RouterLink
       v-for="promotion in promotionsList"
       :to="`/promotion/${promotion.id}`"
       :key="promotion.id"
+      class="promo-link"
     >
       <PromotionTile :promotion="promotion" />
     </RouterLink>
