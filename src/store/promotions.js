@@ -1,9 +1,6 @@
-
 import { getPromotions } from "@/api"
 
 const promotions = {
-
-    //state
     state() {
         return {
             promotionsList: [],
@@ -12,7 +9,6 @@ const promotions = {
         }
     },
 
-    //mutations czyli setters
     mutations: {
         SET_PROMOTIONS_LIST(state, newPromotions) {
             state.promotionsList = newPromotions
@@ -25,33 +21,16 @@ const promotions = {
         }
     },
 
-    //getters
     getters: {
-        GET_PROMOTIONS_LIST(state) {
-            return state.promotionsList
-        },
-
-        GET_PROMOTIONS_LOADING(state) {
-            return state.promotionsLoading
-        },
-
-        GET_PROMOTIONS_ERROR(state) {
-            return state.promotionsError
-        }
+        GET_PROMOTIONS_LIST(state) { return state.promotionsList },
+        GET_PROMOTIONS_LOADING(state) { return state.promotionsLoading },
+        GET_PROMOTIONS_ERROR(state) { return state.promotionsError }
     },
 
-    // tu zapytania do serwera z pomocą naszego api
     actions: {
-        FETCH_PROMOTIONS({ state, commit }) {
-
-            // najpierw ustawiamy stan ładowania na true (czyli dane się ładują, teraz mógłby się pokazywać loader)
-
+        FETCH_PROMOTIONS({ commit }) {
             commit("SET_PROMOTIONS_LOADING", true)
-
-            // potem wywołujemy funkcję z api, która
-            // odbiera dane z serwera (poprzez axios) i ustawia listę promocji w store
-            // w razie błędu ustawia error w store (catch)
-            // niezależnie od błędu lub jego braku (finally), kończy loading
+            commit("SET_PROMOTIONS_LIST", [])
 
             getPromotions()
                 .then(data => {
@@ -66,7 +45,5 @@ const promotions = {
         }
     }
 }
-
-
 
 export default promotions
