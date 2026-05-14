@@ -33,6 +33,16 @@ const router = createRouter({
             path: '/promotion/:id',
             name: 'PromotionView',
             component: PromotionView
+        },
+        {
+            path: '/register',
+            name: 'RegisterView',
+            component: () => import('@/views/RegisterView.vue'), // lazy loading
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: () => import('@/views/LoginView.vue')
         }
     ]
 })
